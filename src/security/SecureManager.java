@@ -7,6 +7,7 @@ package security;
 
 import entity.Reader;
 import entity.User;
+import java.util.List;
 import java.util.Scanner;
 import tools.managers.ReaderManager;
 import tools.severs.ReaderSaver;
@@ -19,7 +20,7 @@ import tools.severs.UserSaver;
 public class SecureManager {
     private Scanner scanner = new Scanner(System.in);
     
-    public User checkTask(User[] users, Reader[] readers) {
+    public User checkTask(List<User> users, List<Reader> readers) {
         int numTask = -1;
         do{
             System.out.println("Ваш выбор: ");

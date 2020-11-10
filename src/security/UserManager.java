@@ -7,6 +7,7 @@ package security;
 
 import entity.Reader;
 import entity.User;
+import java.util.List;
 import java.util.Scanner;
 import tools.managers.ReaderManager;
 
@@ -33,7 +34,7 @@ public class UserManager {
         return user;
     }
             
-    public User getAuthUser(User[] users) {
+    public User getAuthUser(List<User> users) {
         //+получить от пользователя логин
         //+получиь от пользователя пароль
         //пройти по users циклом сравнить логины
@@ -47,8 +48,8 @@ public class UserManager {
         String login = scanner.nextLine();
         System.out.print("Введите пароль:");
         String password = scanner.nextLine();
-        for (int i = 0; i < users.length; i++) {
-            User user = users[i];
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
             if(user == null) continue;
             if(login.equals(user.getLogin())){
                 for (int j = 0; j < 2; j++) {
@@ -68,13 +69,8 @@ public class UserManager {
         
         return null;
     }
-     public void addUserToArray(User user, User[] users){
-        for (int i = 0; i < users.length; i++) {
-            if(users[i] == null){
-                users[i]=user;
-                break;
-            }
-        }
+     public void addUserToArray(User user, List<User> users){
+        users.add(user);
     }
     
 }
