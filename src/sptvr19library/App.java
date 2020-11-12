@@ -20,7 +20,8 @@ import tools.managers.HistoryManager;
 import tools.severs.HistorySaver;
 import tools.managers.ReaderManager;
 import tools.severs.ReaderSaver;
-import tools.severs.UserSaver;
+import tools.severs.SaverInterface;
+import tools.severs.SaverToBase;
 
 /**
  *
@@ -40,20 +41,17 @@ class App {
     private HistoryManager historyManager = new HistoryManager();
     private SecureManager secureManager = new SecureManager();
     private User loginedUser;
+    private SaverInterface saver = new SaverToBase();
     public App() {
-        BookSaver bookSaver = new BookSaver();
-        listBooks = bookSaver.loadFile();
-        ReaderSaver readerSaver = new ReaderSaver();
-        listReaders = readerSaver.loadFile();
-        HistorySaver historySaver = new HistorySaver();
-        listHistories = historySaver.loadFile();
-        UserSaver userSaver = new UserSaver();
-        listUsers = userSaver.loadFile();
+        listBooks = (List<Book>)saver.load("Book");
+        listReaders = (List<Reader>)saver.load("Reader");
+        listHistories = (List<History>)saver.load("History");
+        listUsers = (List<User>)saver.load("User");
     }
     
     public void run(){
         System.out.println("--- Библиотека ---");
-        this.loginedUser = secureManager.checkTask(listUsers, listReaders);
+        this.loginedUser = secureManager.checkTask(listUsers, listReaders, saver);
         boolean repeat = true;
         do{
             System.out.println("Список задач: ");
@@ -78,8 +76,7 @@ class App {
                     Book book = bookManager.createBook();
                     bookManager.addBookToArray(book, listBooks);
                     bookManager.printListBooks(listBooks);
-                    BookSaver bookSaver = new BookSaver();
-                    bookSaver.saveBooks(listBooks);
+                    saver.save(listBooks,"Book");
                     break;
                 case "2":
                     System.out.println("--- Cписок книг ---");
@@ -90,8 +87,7 @@ class App {
                     Reader reader = readerManager.createReader();
                     readerManager.addReaderToArray(reader, listReaders);
                     readerManager.printListReaders(listReaders);
-                    ReaderSaver readerSaver = new ReaderSaver();
-                    readerSaver.saveReaders(listReaders);
+                    saver.save(listReaders,"Reader");
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
@@ -102,14 +98,12 @@ class App {
                     History history = historyManager.takeOnBookToReader(listBooks, listReaders);
                     historyManager.addBookToArray(history, listHistories);
                     historyManager.printListHistories(listHistories);
-                    HistorySaver historySaver = new HistorySaver();
-                    historySaver.saveHistories(listHistories);
+                    saver.save(listHistories,"History");
                     break;
                 case "6":
                     System.out.println("--- Возврат книги ---");
                     historyManager.returnBook(listHistories);
-                    historySaver = new HistorySaver();
-                    historySaver.saveHistories(listHistories);
+                    saver.save(listHistories,"History");
                     break;
                 case "7":
                     System.out.println("--- Список читаемых книг ---");

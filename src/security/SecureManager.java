@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 import tools.managers.ReaderManager;
 import tools.severs.ReaderSaver;
+import tools.severs.SaverInterface;
 import tools.severs.UserSaver;
 
 /**
@@ -20,7 +21,7 @@ import tools.severs.UserSaver;
 public class SecureManager {
     private Scanner scanner = new Scanner(System.in);
     
-    public User checkTask(List<User> users, List<Reader> readers) {
+    public User checkTask(List<User> listUsers, List<Reader> listReaders, SaverInterface saver) {
         int numTask = -1;
         do{
             System.out.println("Ваш выбор: ");
@@ -38,15 +39,13 @@ public class SecureManager {
                        System.exit(0);
                    }else if(numTask == 1){
                        User regUser = userManager.regUser();
-                       userManager.addUserToArray(regUser, users);
+                       userManager.addUserToArray(regUser, listUsers);
                        ReaderManager readerManager = new ReaderManager();
-                       readerManager.addReaderToArray(regUser.getReader(), readers);
-                       ReaderSaver readerSaver = new ReaderSaver();
-                       readerSaver.saveReaders(readers);
-                       UserSaver userSaver = new UserSaver();
-                       userSaver.saveUsers(users);
+                       readerManager.addReaderToArray(regUser.getReader(), listReaders);
+                       saver.save(listReaders, "Reader");
+                       saver.save(listUsers,"User");
                    }else if(numTask == 2){
-                       User authUser = userManager.getAuthUser(users);
+                       User authUser = userManager.getAuthUser(listUsers);
                        if(authUser != null){
                            return authUser;
                        }else{
