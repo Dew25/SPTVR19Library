@@ -5,8 +5,8 @@
  */
 package tools.managers;
 
-import entity.Book;
 import entity.Reader;
+import entity.dbcontroller.ReaderDbController;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +15,7 @@ import java.util.Scanner;
  * @author user
  */
 public class ReaderManager {
+    private ReaderDbController rc = new ReaderDbController();
 
     public Reader createReader() {
         Reader reader = new Reader();
@@ -26,17 +27,19 @@ public class ReaderManager {
         reader.setLastname(scanner.nextLine());
         System.out.print("Телефон: ");
         reader.setPhone(scanner.nextLine());
+        rc.create(reader);
         return reader;
     }
 
     public void addReaderToArray(Reader reader, List<Reader> readers) {
         readers.add(reader);
     }
-    public void printListReaders(List<Reader> readers) {
+    public void printListReaders() {
+        List<Reader> readers = rc.findAll();
         for (int i = 0; i < readers.size(); i++) {
             if(readers.get(i)!= null){
                 System.out.printf("%3d. Добавлен читатель: %s %s%n"
-                        ,i+1
+                        ,readers.get(i).getId()
                         ,readers.get(i).getName()
                         ,readers.get(i).getLastname()
                 );

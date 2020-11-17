@@ -10,9 +10,7 @@ import entity.User;
 import java.util.List;
 import java.util.Scanner;
 import tools.managers.ReaderManager;
-import tools.severs.ReaderSaver;
 import tools.severs.SaverInterface;
-import tools.severs.UserSaver;
 
 /**
  *
@@ -21,7 +19,7 @@ import tools.severs.UserSaver;
 public class SecureManager {
     private Scanner scanner = new Scanner(System.in);
     
-    public User checkTask(List<User> listUsers, List<Reader> listReaders, SaverInterface saver) {
+    public User checkTask() {
         int numTask = -1;
         do{
             System.out.println("Ваш выбор: ");
@@ -38,14 +36,9 @@ public class SecureManager {
                        System.out.println("Пока! :)");
                        System.exit(0);
                    }else if(numTask == 1){
-                       User regUser = userManager.regUser();
-                       userManager.addUserToArray(regUser, listUsers);
-                       ReaderManager readerManager = new ReaderManager();
-                       readerManager.addReaderToArray(regUser.getReader(), listReaders);
-                       saver.save(listReaders, "Reader");
-                       saver.save(listUsers,"User");
+                       userManager.regUser();
                    }else if(numTask == 2){
-                       User authUser = userManager.getAuthUser(listUsers);
+                       User authUser = userManager.getAuthUser();
                        if(authUser != null){
                            return authUser;
                        }else{

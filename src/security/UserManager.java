@@ -7,6 +7,7 @@ package security;
 
 import entity.Reader;
 import entity.User;
+import entity.dbcontroller.UserDbController;
 import java.util.List;
 import java.util.Scanner;
 import tools.managers.ReaderManager;
@@ -16,6 +17,7 @@ import tools.managers.ReaderManager;
  * @author user
  */
 public class UserManager {
+    private UserDbController uc = new UserDbController();
     private Scanner scanner = new Scanner(System.in);
 
     public User regUser() {
@@ -31,10 +33,11 @@ public class UserManager {
         System.out.print("Пароль: ");
         user.setPassword(scanner.nextLine());
         user.setReader(reader);
+        uc.create(user);
         return user;
     }
             
-    public User getAuthUser(List<User> users) {
+    public User getAuthUser() {
         //+получить от пользователя логин
         //+получиь от пользователя пароль
         //пройти по users циклом сравнить логины
@@ -48,8 +51,13 @@ public class UserManager {
         String login = scanner.nextLine();
         System.out.print("Введите пароль:");
         String password = scanner.nextLine();
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
+        List<User> listUsers = uc.findAll();
+        if(listUsers == null){
+            System.out.println("Нет пользователей");
+            return null;
+        }
+        for (int i = 0; i < listUsers.size(); i++) {
+            User user = listUsers.get(i);
             if(user == null) continue;
             if(login.equals(user.getLogin())){
                 for (int j = 0; j < 2; j++) {

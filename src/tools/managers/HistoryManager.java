@@ -8,6 +8,9 @@ package tools.managers;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import entity.dbcontroller.BookDbController;
+import entity.dbcontroller.HistoryDbController;
+import entity.dbcontroller.ReaderDbController;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -18,32 +21,37 @@ import java.util.Scanner;
  * @author user
  */
 public class HistoryManager {
+    private HistoryDbController hc = new HistoryDbController();
+    private ReaderDbController rc = new ReaderDbController();
+    private BookDbController bc = new BookDbController();
     private BookManager bookManager = new BookManager();
     private ReaderManager readerManager = new ReaderManager();
     private Scanner scanner = new Scanner(System.in);
     
-    public History takeOnBookToReader(List<Book> books, List<Reader> readers){
+    public History takeOnBookToReader(){
+        List<Book> books = bc.findAll();
+        List<Reader> readers = rc.findAll();
         System.out.println("--- Cписок книг ---");
-        bookManager.printListBooks(books);
+        bookManager.printListBooks();
         System.out.print("Выберите номер книги:");
-        int bookNumber = scanner.nextInt();
-        Book book = books.get(bookNumber - 1);
+        Long bookNumber = scanner.nextLong();
+        Book book = bc.find(bookNumber);
         System.out.println("--- Список читателей ---");
-        readerManager.printListReaders(readers);
+        readerManager.printListReaders();
         System.out.print("Выберите номер читателя:");
-        int readerNumber = scanner.nextInt();
-        Reader reader = readers.get(readerNumber - 1);
+        Long readerNumber = scanner.nextLong();
+        Reader reader = rc.find(readerNumber);
         Calendar c = new GregorianCalendar();
         History history = new History();
         history.setBook(book);
         history.setReader(reader);
         history.setTakeOnDate(c.getTime());
+        hc.create(history);
         return history;
     }
-    public void addBookToArray(History history, List<History> histories){
-        histories.add(history);
-    }
-    public void printListHistories(List<History> histories) {
+
+    public void printListHistories() {
+        List<History> histories = hc.findAll();
         for (int i = 0; i < histories.size(); i++) {
             if(histories.get(i)!= null && histories.get(i).getReturnDate() == null){
                 System.out.printf("%3d. Книгу \"%s\" читает %s %s%n"
@@ -57,14 +65,16 @@ public class HistoryManager {
         }
     }
     
-    public void returnBook(List<History> histories){
+    public void returnBook(){
         System.out.println("--- Список читаемых книг ---");
-        this.printListHistories(histories);
+        this.printListHistories();
         System.out.print("Выберите номер возвращаемой книги: ");
-        int historyNumber = scanner.nextInt();
+        Long historyNumber = scanner.nextLong();
         Calendar c = new GregorianCalendar();
-        histories.get(historyNumber - 1).setReturnDate(c.getTime());
-        System.out.println("Книга "+histories.get(historyNumber - 1).getBook().getName()+" возвращена.");
+        History history = hc.find(historyNumber);
+        history.setReturnDate(c.getTime());
+        hc.edit(history);
+        System.out.println("Книга "+history.getBook().getName()+" возвращена.");
     }
     
 }

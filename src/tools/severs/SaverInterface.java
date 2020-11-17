@@ -5,7 +5,6 @@
  */
 package tools.severs;
 
-import entity.EntityInterface;
 import java.util.List;
 
 /**

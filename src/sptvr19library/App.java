@@ -14,12 +14,10 @@ import entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import security.UserManager;
 import tools.managers.BookManager;
-import tools.severs.BookSaver;
 import tools.managers.HistoryManager;
-import tools.severs.HistorySaver;
 import tools.managers.ReaderManager;
-import tools.severs.ReaderSaver;
 import tools.severs.SaverInterface;
 import tools.severs.SaverToBase;
 
@@ -28,30 +26,20 @@ import tools.severs.SaverToBase;
  * @author sillamae kutsekool
  */
 class App {
-    
-    private List<Book> listBooks = new ArrayList<>();
-    
-    private List<Reader> listReaders = new ArrayList<>();
-    
-    private List<History> listHistories = new ArrayList<>();
-    
-    private List<User> listUsers = new ArrayList<>();
+ 
     private ReaderManager readerManager = new ReaderManager();
     private BookManager bookManager = new BookManager();
     private HistoryManager historyManager = new HistoryManager();
+    private UserManager userManager = new UserManager();
     private SecureManager secureManager = new SecureManager();
     private User loginedUser;
     private SaverInterface saver = new SaverToBase();
     public App() {
-        listBooks = (List<Book>)saver.load("Book");
-        listReaders = (List<Reader>)saver.load("Reader");
-        listHistories = (List<History>)saver.load("History");
-        listUsers = (List<User>)saver.load("User");
     }
     
     public void run(){
         System.out.println("--- Библиотека ---");
-        this.loginedUser = secureManager.checkTask(listUsers, listReaders, saver);
+        this.loginedUser = secureManager.checkTask();
         boolean repeat = true;
         do{
             System.out.println("Список задач: ");
@@ -74,40 +62,31 @@ class App {
                 case "1":
                     System.out.println("---- Добавить новую книгу ----");
                     Book book = bookManager.createBook();
-                    bookManager.addBookToArray(book, listBooks);
-                    bookManager.printListBooks(listBooks);
-                    saver.save(listBooks,"Book");
                     break;
                 case "2":
                     System.out.println("--- Cписок книг ---");
-                    bookManager.printListBooks(listBooks);
+                    bookManager.printListBooks();
                     break;
                 case "3":
                     System.out.println("--- Зарегистрировать нового читателя ---");
-                    Reader reader = readerManager.createReader();
-                    readerManager.addReaderToArray(reader, listReaders);
-                    readerManager.printListReaders(listReaders);
-                    saver.save(listReaders,"Reader");
+                    User user = userManager.regUser();
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
-                    readerManager.printListReaders(listReaders);
+                    readerManager.printListReaders();
                     break;
                 case "5":
                     System.out.println("--- Выдать книгу ---");
-                    History history = historyManager.takeOnBookToReader(listBooks, listReaders);
-                    historyManager.addBookToArray(history, listHistories);
-                    historyManager.printListHistories(listHistories);
-                    saver.save(listHistories,"History");
+                    History history = historyManager.takeOnBookToReader();
+                    
                     break;
                 case "6":
                     System.out.println("--- Возврат книги ---");
-                    historyManager.returnBook(listHistories);
-                    saver.save(listHistories,"History");
+                    historyManager.returnBook();
                     break;
                 case "7":
                     System.out.println("--- Список читаемых книг ---");
-                    historyManager.printListHistories(listHistories);
+                    historyManager.printListHistories();
                     break;
                 default:
                     System.out.println("Нет такой задачи.");
