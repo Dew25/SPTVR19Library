@@ -5,12 +5,8 @@
  */
 package security;
 
-import entity.Reader;
 import entity.User;
-import java.util.List;
 import java.util.Scanner;
-import tools.managers.ReaderManager;
-import tools.severs.SaverInterface;
 
 /**
  *

@@ -7,12 +7,9 @@ package sptvr19library;
 
 
 import security.SecureManager;
-import entity.Reader;
 import entity.Book;
 import entity.History;
 import entity.User;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import security.UserManager;
 import tools.managers.BookManager;

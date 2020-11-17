@@ -57,7 +57,7 @@ public class UserManager {
             return null;
         }
         for (int i = 0; i < listUsers.size(); i++) {
-            User user = listUsers.get(i);
+            User user = (User)listUsers.get(i);
             if(user == null) continue;
             if(login.equals(user.getLogin())){
                 for (int j = 0; j < 2; j++) {
