@@ -6,7 +6,6 @@
 package entity.dbcontroller;
 
 import entity.History;
-import entity.Reader;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

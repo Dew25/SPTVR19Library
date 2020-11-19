@@ -7,19 +7,15 @@ package sptvr19library;
 
 
 import security.SecureManager;
-import entity.Reader;
 import entity.Book;
 import entity.History;
 import entity.User;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import security.UserManager;
 import tools.managers.BookManager;
 import tools.managers.HistoryManager;
 import tools.managers.ReaderManager;
-import tools.severs.SaverInterface;
-import tools.severs.SaverToBase;
+
 
 /**
  *
@@ -33,7 +29,7 @@ class App {
     private UserManager userManager = new UserManager();
     private SecureManager secureManager = new SecureManager();
     private User loginedUser;
-    private SaverInterface saver = new SaverToBase();
+
     public App() {
     }
     
@@ -54,6 +50,7 @@ class App {
             System.out.print("Выберите задачу: ");
             Scanner scanner = new Scanner(System.in);
             String task = scanner.nextLine();
+           
             switch (task) {
                 case "0":
                     System.out.println("---- Конец программы ----");
