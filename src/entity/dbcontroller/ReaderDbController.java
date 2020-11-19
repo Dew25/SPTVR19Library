@@ -6,42 +6,26 @@
 package entity.dbcontroller;
 
 import entity.Reader;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 /**
  *
  * @author user
  */
-public class ReaderDbController {
+public class ReaderDbController extends AbstractFacade<Reader>{
     private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
     private EntityManager em = emf.createEntityManager();
-    private EntityTransaction tx = em.getTransaction();
-
-    public void create(Reader reader) {
-        tx.begin();
-        em.persist(reader);
-        tx.commit();
+    
+    
+    public ReaderDbController() {
+        super(Reader.class);
     }
-    public List<Reader> findAll() {
-        try {
-            return em.createQuery("SELECT r FROM Reader r")
-                    .getResultList();
-        } catch (Exception e) {
-            return null;
-        }
-    }
+    
 
-    public Reader find(Long readerId) {
-       try {
-            return (Reader) em.createQuery("SELECT r FROM Reader r WHERE r.id = :readerId")
-                    .setParameter("readerId", readerId)
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
 }

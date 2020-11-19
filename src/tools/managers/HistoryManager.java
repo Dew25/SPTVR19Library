@@ -51,18 +51,18 @@ public class HistoryManager {
     }
 
     public void printListHistories() {
-        List<History> histories = hc.findAll();
+        List<History> histories = hc.findReadingAll();
         for (int i = 0; i < histories.size(); i++) {
-            if(histories.get(i)!= null && histories.get(i).getReturnDate() == null){
-                System.out.printf("%3d. Книгу \"%s\" читает %s %s%n"
-                        ,i+1
-                        ,histories.get(i).getBook().getName()
-                        ,histories.get(i).getReader().getName()
-                        ,histories.get(i).getReader().getLastname()
-                );
-                System.out.println("--------------------------------");
-            }
+            History history = (History) histories.get(i);
+            System.out.printf("%3d. Книгу \"%s\" читает %s %s%n"
+                    ,history.getId()
+                    ,history.getBook().getName()
+                    ,history.getReader().getName()
+                    ,history.getReader().getLastname()
+            );
+            
         }
+        System.out.println("--------------------------------");
     }
     
     public void returnBook(){
