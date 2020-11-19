@@ -6,20 +6,20 @@
 package entity.dbcontroller;
 
 import entity.Book;
+import factory.ConnectSingleton;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
  * @author user
  */
 public class BookDbController extends AbstractFacade<Book>{
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
-    private EntityManager em = emf.createEntityManager();
+    private EntityManager em;
 
     public BookDbController() {
         super(Book.class);
+        ConnectSingleton connect = ConnectSingleton.getInstanse();
+        em = connect.getEntityManager();
     }
     
 

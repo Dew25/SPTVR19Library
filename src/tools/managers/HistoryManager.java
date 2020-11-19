@@ -11,6 +11,7 @@ import entity.Reader;
 import entity.dbcontroller.BookDbController;
 import entity.dbcontroller.HistoryDbController;
 import entity.dbcontroller.ReaderDbController;
+import factory.DbControllerFactory;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -21,9 +22,9 @@ import java.util.Scanner;
  * @author user
  */
 public class HistoryManager {
-    private HistoryDbController hc = new HistoryDbController();
-    private ReaderDbController rc = new ReaderDbController();
-    private BookDbController bc = new BookDbController();
+    private HistoryDbController hc = DbControllerFactory.getHistoryDbController();
+    private ReaderDbController rc = DbControllerFactory.getReaderDbController();
+    private BookDbController bc = DbControllerFactory.getBookDbController();
     private BookManager bookManager = new BookManager();
     private ReaderManager readerManager = new ReaderManager();
     private Scanner scanner = new Scanner(System.in);

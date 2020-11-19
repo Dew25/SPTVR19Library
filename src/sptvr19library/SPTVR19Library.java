@@ -5,6 +5,8 @@
  */
 package sptvr19library;
 
+import factory.ConnectSingleton;
+
 /**
  *
  * @author sillamae kutsekool
@@ -15,8 +17,19 @@ public class SPTVR19Library {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        App app = new App();
-        app.run();
+        try {
+            App app = new App();
+            app.run();
+        } finally{
+            ConnectSingleton connect = ConnectSingleton.getInstanse();
+            if(connect.getEntityManagerFactory() != null){
+                connect.getEntityManagerFactory().close();
+            }
+            if(connect.getEntityManager() != null){
+                connect.getEntityManager().close();
+            }
+        }
+        
     }
     
 }

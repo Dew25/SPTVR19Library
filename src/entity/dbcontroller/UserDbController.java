@@ -6,25 +6,24 @@
 package entity.dbcontroller;
 
 import entity.User;
+import factory.ConnectSingleton;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
  * @author user
  */
 public class UserDbController extends AbstractFacade<User>{
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
-    private EntityManager em = emf.createEntityManager();
+   
+    private EntityManager em;
      public UserDbController() {
         super(User.class);
+        ConnectSingleton connect = ConnectSingleton.getInstanse();
+        em = connect.getEntityManager();
     }
     
-
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
 }

@@ -8,6 +8,7 @@ package security;
 import entity.Reader;
 import entity.User;
 import entity.dbcontroller.UserDbController;
+import factory.DbControllerFactory;
 import java.util.List;
 import java.util.Scanner;
 import tools.managers.ReaderManager;
@@ -17,7 +18,7 @@ import tools.managers.ReaderManager;
  * @author user
  */
 public class UserManager {
-    private UserDbController uc = new UserDbController();
+    private UserDbController uc = DbControllerFactory.getUserDbController();
     private Scanner scanner = new Scanner(System.in);
 
     public User regUser() {

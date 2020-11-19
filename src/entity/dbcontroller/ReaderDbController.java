@@ -6,21 +6,21 @@
 package entity.dbcontroller;
 
 import entity.Reader;
+import factory.ConnectSingleton;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
  * @author user
  */
 public class ReaderDbController extends AbstractFacade<Reader>{
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
-    private EntityManager em = emf.createEntityManager();
     
-    
+    private EntityManager em;
+        
     public ReaderDbController() {
         super(Reader.class);
+        ConnectSingleton connect = ConnectSingleton.getInstanse();
+        em = connect.getEntityManager();
     }
     
 

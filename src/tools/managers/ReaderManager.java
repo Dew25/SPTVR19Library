@@ -7,6 +7,7 @@ package tools.managers;
 
 import entity.Reader;
 import entity.dbcontroller.ReaderDbController;
+import factory.DbControllerFactory;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ import java.util.Scanner;
  * @author user
  */
 public class ReaderManager {
-    private ReaderDbController rc = new ReaderDbController();
+    private ReaderDbController rc = DbControllerFactory.getReaderDbController();
 
     public Reader createReader() {
         Reader reader = new Reader();

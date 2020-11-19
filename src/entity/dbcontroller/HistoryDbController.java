@@ -6,22 +6,22 @@
 package entity.dbcontroller;
 
 import entity.History;
+import factory.ConnectSingleton;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
  * @author user
  */
 public class HistoryDbController extends AbstractFacade<History>{
-    private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
-    private EntityManager em = emf.createEntityManager();
-   
 
+    private EntityManager em;
+   
     public HistoryDbController() {
         super(History.class);
+        ConnectSingleton connect = ConnectSingleton.getInstanse();
+        em = connect.getEntityManager();
     }
     
 

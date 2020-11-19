@@ -7,6 +7,7 @@ package tools.managers;
 
 import entity.Book;
 import entity.dbcontroller.BookDbController;
+import factory.DbControllerFactory;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ import java.util.Scanner;
  * @author user
  */
 public class BookManager {
-    private BookDbController bc = new BookDbController();
+    private BookDbController bc = DbControllerFactory.getBookDbController();
     public Book createBook() {
         Book book = new Book();
         Scanner scanner = new Scanner(System.in);
